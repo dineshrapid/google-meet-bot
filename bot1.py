@@ -3,16 +3,17 @@ import subprocess
 from gtts import gTTS
 import tempfile
 from playwright.sync_api import sync_playwright
+import os
 
-# ------------------ Config ------------------
-EMAIL = "dinukanna2003@gmail.com"
-PASSWORD = "dinuthillal2003"
-MEET_URL = "https://meet.google.com/adi-gyzw-xef"
+
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
+MEET_URL = os.getenv("MEET")
 
 # Poll captions every N seconds
 CAPTION_POLL_INTERVAL = 0.5
 
-# ------------------ Virtual Mic ------------------
+
 def setup_virtual_mic():
     # Idempotent check: skip if already exists
     sinks = subprocess.run(["pactl", "list", "short", "sinks"], capture_output=True).stdout.decode()
@@ -148,9 +149,7 @@ def poll_captions(page):
         time.sleep(CAPTION_POLL_INTERVAL)
 
 
-# ------------------ LLM / Bot Logic ------------------
 def generate_response(text):
-    # Replace this with your LLM or rules engine
     return f"I heard: {text}"
 
 # ------------------ Main ------------------
